@@ -22,14 +22,8 @@ The golint output if the command fail.
 
 For Example:
 
-```bash
-Found 6 lint suggestions; failing.
-models/Alignment.go:3:6: exported type Alignment should have comment or be unexported
-models/Border.go:3:6: exported type Border should have comment or be unexported
-models/CellStyle.go:3:6: exported type CellStyle should have comment or be unexported
-models/Fill.go:3:6: exported type Fill should have comment or be unexported
-models/Font.go:3:6: exported type Font should have comment or be unexported
-models/Protection.go:3:6: exported type Protection should have comment or be unexported
+```
+internal/cmd/root.go:17:1: exported function Execute should have comment or be unexported
 ```
 
 ## Example Usage
