@@ -41,6 +41,6 @@ runs:
         # Signal Error and Fail
         if [ "${GOLINT_OUTPUT}" ]
         then
-          echo "::error::${GITHUB_OUTPUT}"
+          echo "::error::${GOLINT_OUTPUT}"
           exit 1
         fi
