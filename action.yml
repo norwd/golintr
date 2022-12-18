@@ -32,7 +32,7 @@ runs:
       shell: bash
       run: |
         echo "golint-output<<EOF" >> "${GITHUB_OUTPUT}"
-        ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true
+        ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" >> "${GITHUB_OUTPUT}" || true
         echo "EOF" >> "${GITHUB_OUTPUT}"
 
     - name: "Report Errors (if any)"
