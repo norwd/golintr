@@ -77,7 +77,7 @@ jobs:
         env:
           GOLINTR_ERRORS: ${{ steps.golintr.outputs.errors }}
         run: |
-          echo "$GOLINTR_ERRORS" | awk -F : '{ file=$1; $1=""; line=$2; $2=""; title="Go Lint Error"; $3=""; print "file=" file ",line=" line ",title=" title "::" $0 }'
+          echo "$GOLINTR_ERRORS" | awk -F : '{ file=$1; $1=""; line=$2; $2=""; title="Go Lint Error"; $3=""; print "::error file=" file ",line=" line ",title=" title "::" $0 }'
 ````
 
 [golint]: https://github.com/golang/lint
