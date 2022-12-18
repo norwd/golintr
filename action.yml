@@ -23,9 +23,11 @@ runs:
   steps:
     - name: "Run `golint`"
       id: golint
+      env:
+        GOLINT_PATH: ${{ inputs.path }}
       shell: bash
       run: |
-        if ! GOLINT_OUTPUT="$(golint -set_exit_status ${{ inputs.path }})"
+        if ! GOLINT_OUTPUT="$(golint -set_exit_status "${GOLINT_PATH}")"
         then
           echo "::error::${GITHUB_OUTPUT}"
 
