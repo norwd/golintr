@@ -23,18 +23,15 @@ runs:
     - name: "Install `golint`"
       id: install
       shell: bash
-      run: |
-        go install golang.org/x/lint/golint@latest
-        echo "location=$(go list -f {{.Target}} golang.org/x/lint/golint)" >> "${GITHUB_OUTPUT}"
+      run: go install golang.org/x/lint/golint@latest
 
     - name: "Run `golint`"
       id: golint
       env:
-        GOLINT_LOCATION: ${{ steps.install.outputs.location }}
         GOLINT_PATH: ${{ inputs.path }}
       shell: bash
       run: |
-        if ! GOLINT_OUTPUT="$("${GOLINT_LOCATION}" -set_exit_status "${GOLINT_PATH}")"
+        if ! GOLINT_OUTPUT="$("$(go env GOPATH)/bin/golint" -set_exit_status "${GOLINT_PATH}")"
         then
           echo "::error::${GITHUB_OUTPUT}"
 
