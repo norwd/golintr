@@ -36,13 +36,6 @@ runs:
         echo "EOF" >> "${GITHUB_OUTPUT}"
 
     - name: "Report Errors (if any)"
-      env:
-        GOLINT_OUTPUT: ${{ steps.golint.outputs.golint-output }}
+      if: steps.golint.outputs.golint-output != ''
       shell: bash
-      run: |
-        # Signal Error and Fail
-        if [ "${GOLINT_OUTPUT}" ]
-        then
-          echo "::error::${GOLINT_OUTPUT}"
-          exit 1
-        fi
+      run: exit 1
