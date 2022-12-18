@@ -25,16 +25,16 @@ runs:
       id: golint
       shel: bash
       run: |
-        cd $GITHUB_WORKSPACE
+        if ! GOLINT_OUTPUT="$(golint -set_exit_status ${{ inputs.path }})"
+        then
+          echo "::error::${GITHUB_OUTPUT}"
 
-        GOLINT_OUTPUT="$(golint -set_exit_status ${{ inputs.path }})"
-        if [ $? -ne 0 ]; then
-          echo "${GOLINT_OUTPUT}"
+          if [ -z "${GITHUB_OUTPUT}" ]
+          then
+            echo "::set-output name=errors::${GOLINT_OUTPUT}"
+          else
+            echo "errors=${GOLINT_OUTPUT}" >> "${GITHUB_OUTPUT}"
+          fi
+
           exit 1
-        fi
-
-        if [ -z "${GITHUB_OUTPUT}" ]; then
-          echo "::set-output name=errors::Golint step succeed"
-        else
-          echo "errors=Golint step succeed" >> "${GITHUB_OUTPUT}"
         fi
