@@ -1,7 +1,6 @@
 ---
 
 name: "Self Test"
-run-name: "Testing Self"
 
 on:
   push:
