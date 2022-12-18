@@ -2,8 +2,11 @@ package main
 
 import "fmt"
 
-var ExportedVaraibleWithNoComment = "Hello World"
+var ExportedVariableWithNoComment = "Hello World"
+
+// this is not a vaild godoc comment
+var ExportedVariableWithIncorrectComment = ExportedVariableWithNoComment
 
 func main() {
-  fmt.Println(ExportedVaraibleWithNoComment)
+  fmt.Println(ExportedVariableWithNoComment)
 }
