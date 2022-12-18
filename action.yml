@@ -31,17 +31,20 @@ runs:
         GOLINT_PATH: ${{ inputs.path }}
       shell: bash
       run: |
-        set +e
+        # Run `golint`
+        GOLINT_OUTPUT="$("$(go env GOPATH)/bin/golint" -set_exit_status "${GOLINT_PATH}" || true)"
 
-        GOLINT_OUTPUT="$("$(go env GOPATH)/bin/golint" -set_exit_status "${GOLINT_PATH}")" || {
+        # Set Step Output
+        if [ -z "${GITHUB_OUTPUT}" ]
+        then
+          echo "::set-output name=errors::${GOLINT_OUTPUT}"
+        else
+          echo "errors=${GOLINT_OUTPUT}" >> "${GITHUB_OUTPUT}"
+        fi
+
+        # Signal Error and Fail
+        if [ "${GOLINT_OUTPUT}" ]
+        then
           echo "::error::${GITHUB_OUTPUT}"
-
-          if [ -z "${GITHUB_OUTPUT}" ]
-          then
-            echo "::set-output name=errors::${GOLINT_OUTPUT}"
-          else
-            echo "errors=${GOLINT_OUTPUT}" >> "${GITHUB_OUTPUT}"
-          fi
-
           exit 1
-        }
+        fi
