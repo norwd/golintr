@@ -1,6 +1,7 @@
 ---
 
-name: "Lint Go Files"
+name: "Self Test"
+run-name: "Testing Self"
 
 on:
   push:
@@ -19,7 +20,7 @@ jobs:
         id: golintr
         uses: norwd/golintr@main
         with:
-          path: ./src/...
+          path: .github/test/...
 
       - name: Display Errors
         if: failure() || steps.golintr.outputs.errors != ''
