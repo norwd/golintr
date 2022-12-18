@@ -4,6 +4,8 @@ name: "Self Test"
 
 on:
   push:
+    paths:
+      - ".github/test/**"
 
 jobs:
   golintr:
@@ -19,7 +21,7 @@ jobs:
         id: golintr
         uses: norwd/golintr@main
         with:
-          path: .github/test/nonexistent/...
+          path: .github/test/...
 
       - name: Display Errors
         if: failure() || steps.golintr.outputs.errors != ''
