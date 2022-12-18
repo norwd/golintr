@@ -15,7 +15,7 @@ inputs:
 outputs:
   errors:
     description: 'The golint output if the command fail'
-    value: ${{ steps.golint.outputs.golint-output }}
+    value: ${{ steps.golint.outputs.errors }}
 
 runs:
   using: composite
@@ -28,16 +28,11 @@ runs:
     - name: "Run `golint`"
       id: golint
       shell: bash
-      run: |
-        {
-          echo "golint-output<<EOF"
-          ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true
-          echo "EOF"
-        } >> "${GITHUB_OUTPUT}"
+      run: { echo "errors<<EOF"; ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true; echo "EOF"; } >> "${GITHUB_OUTPUT}"
       env:
         GOLINT_PATH: ${{ inputs.path }}
 
     - name: "Report Errors (if any)"
-      if: steps.golint.outputs.golint-output != ''
+      if: steps.golint.outputs.errors != ''
       shell: bash
       run: exit 1
