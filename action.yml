@@ -1,10 +1,10 @@
-name: 'golintr'
-author: 'Y. Meyer-Norwood'
-description: 'Lint your code using golint'
+name: golintr
+author: norwd
+description: "Lint your code using golint"
 
 branding:
-  icon: 'check-circle'
-  color: 'green'
+  icon: check-circle
+  color: green
 
 inputs:
   path:
@@ -15,12 +15,14 @@ inputs:
 outputs:
   errors:
     description: 'The golint output if the command fail'
+    value: ${{ steps.golint.outputs.errors }}
 
 runs:
   runs:
   using: composite
   steps:
     - name: "Run `golint`"
+      id: golint
       shel: bash
       run: |
         cd $GITHUB_WORKSPACE
