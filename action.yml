@@ -28,7 +28,7 @@ runs:
     - name: "Run `golint`"
       id: golint
       shell: bash
-      run: { echo "errors<<EOF"; ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true; echo "EOF"; } >> "${GITHUB_OUTPUT}"
+      run: '{ echo "errors<<EOF"; ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true; echo "EOF"; } >> "${GITHUB_OUTPUT}"'
       env:
         GOLINT_PATH: ${{ inputs.path }}
 
