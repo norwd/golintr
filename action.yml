@@ -1,19 +1,38 @@
-name: 'Go-linter'
-author: 'Jérôme Pogeant'
+name: 'golintr'
+author: 'Y. Meyer-Norwood'
 description: 'Lint your code using golint'
-inputs:
-  golint-path:
-    description: 'Path used by golint command'
-    required: false
-    default: './...'
-outputs:
-  golint-output:
-    description: 'The golint output if the command fail'
-runs:
-  using: 'docker'
-  image: 'Dockerfile'
-  args:
-    - ${{ inputs.golint-path }}
+
 branding:
   icon: 'check-circle'
   color: 'green'
+
+inputs:
+  path:
+    description: 'Path used by golint command'
+    required: false
+    default: './...'
+
+outputs:
+  errors:
+    description: 'The golint output if the command fail'
+
+runs:
+  runs:
+  using: composite
+  steps:
+    - name: "Run `golint`"
+      shel: bash
+      run: |
+        cd $GITHUB_WORKSPACE
+
+        GOLINT_OUTPUT="$(golint -set_exit_status ${{ inputs.path }})"
+        if [ $? -ne 0 ]; then
+          echo "${GOLINT_OUTPUT}"
+          exit 1
+        fi
+
+        if [ -z "${GITHUB_OUTPUT}" ]; then
+          echo "::set-output name=errors::Golint step succeed"
+        else
+          echo "errors=Golint step succeed" >> "${GITHUB_OUTPUT}"
+        fi
