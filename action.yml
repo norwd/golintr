@@ -23,7 +23,7 @@ runs:
   steps:
     - name: "Run `golint`"
       id: golint
-      shel: bash
+      shell: bash
       run: |
         if ! GOLINT_OUTPUT="$(golint -set_exit_status ${{ inputs.path }})"
         then
