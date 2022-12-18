@@ -19,7 +19,7 @@ jobs:
         id: golintr
         uses: norwd/golintr@main
         with:
-          path: .github/test/...
+          path: .github/test/nonexistent/...
 
       - name: Display Errors
         if: failure() || steps.golintr.outputs.errors != ''
