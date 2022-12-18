@@ -31,7 +31,9 @@ runs:
         GOLINT_PATH: ${{ inputs.path }}
       shell: bash
       run: |
-        die () {
+        set +e
+
+        GOLINT_OUTPUT="$("$(go env GOPATH)/bin/golint" -set_exit_status "${GOLINT_PATH}")" || {
           echo "::error::${GITHUB_OUTPUT}"
 
           if [ -z "${GITHUB_OUTPUT}" ]
@@ -43,5 +45,3 @@ runs:
 
           exit 1
         }
-
-        GOLINT_OUTPUT="$("$(go env GOPATH)/bin/golint" -set_exit_status "${GOLINT_PATH}")" || die
