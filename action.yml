@@ -31,7 +31,7 @@ runs:
         GOLINT_PATH: ${{ inputs.path }}
       shell: bash
       run: |
-        echo "errors=$("$(go env GOPATH || echo "~/go")/bin/golint" -set_exit_status "${GOLINT_PATH}" || true)" >> "${GITHUB_OUTPUT}"
+        echo "errors=\"$(~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true)\"" >> "${GITHUB_OUTPUT}"
 
     - name: "Report Errors (if any)"
       env:
