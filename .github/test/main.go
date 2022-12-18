@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+  "fmt"
+  _ "pkg/src"
+)
 
 var ExportedVariableWithNoComment = "Hello World"
 
