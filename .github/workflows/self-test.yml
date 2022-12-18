@@ -17,7 +17,7 @@ jobs:
 
       - name: Run Golint
         id: golintr
-        uses: norwd/golintr@v2
+        uses: norwd/golintr@main
         with:
           path: ./src/...
 
