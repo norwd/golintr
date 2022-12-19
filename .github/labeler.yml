@@ -22,3 +22,6 @@ test:
   - "**/test/**"
   - "**/tests/**"
   - "**_test.*"
+
+feature:
+  - "action.yml"
