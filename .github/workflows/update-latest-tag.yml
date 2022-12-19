@@ -91,7 +91,7 @@ jobs:
       - name: "Checkout ${{ github.ref_name }}"
         uses: actions/checkout@v3.2.0
         with:
-          token: "${{ secrets.AUTO_TAG_FMTYA }}"
+          token: "${{ secrets.AUTO_TAG_GOLINTR }}"
           ref: "${{ github.ref_name }}"
 
       - name: "Setup Git Credentials"
@@ -101,7 +101,7 @@ jobs:
           name: "norwd"
           actor: "norwd"
           email: "106889957+norwd@users.noreply.github.com"
-          token: "${{ secrets.AUTO_TAG_FMTYA }}"
+          token: "${{ secrets.AUTO_TAG_GOLINTR }}"
 
       - name: "Setup GPG Signing Key"
         uses: crazy-max/ghaction-import-gpg@v5
