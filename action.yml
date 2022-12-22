@@ -35,7 +35,23 @@ runs:
         { ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true; } | tee -a "${GITHUB_OUTPUT}"
         echo "EOF" >> "${GITHUB_OUTPUT}"
 
-    - name: "Report Errors (if any)"
-      if: steps.golint.outputs.errors != ''
+    - name: "Display Errors"
+      if: steps.golintr.outputs.errors != ''
       shell: bash
-      run: exit 1
+      env:
+        GOLINTR_ERRORS: ${{ steps.golint.outputs.errors }}
+        AWK_SCRIPT: |
+          {
+            file=$1
+            line=$2
+            title="Go Lint Error"
+
+            $1=""
+            $2=""
+            $3=""
+
+            print "::error file=" file ",line=" line ",title=" title "::" $0
+          }
+      run: |
+        echo "$GOLINTR_ERRORS" | awk -F : "${AWK_SCRIPT}"
+        exit 1
