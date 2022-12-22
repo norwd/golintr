@@ -20,13 +20,13 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: "Install `golint`"
-      id: install
+    - id: install
+      name: "Install `golint`"
       shell: bash
       run: go install golang.org/x/lint/golint@latest
 
-    - name: "Run `golint`"
-      id: golint
+    - id: golint
+      name: "Run `golint`"
       shell: bash
       env:
         GOLINT_PATH: ${{ inputs.path }}
@@ -35,8 +35,8 @@ runs:
         { ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true; } | tee -a "${GITHUB_OUTPUT}"
         echo "EOF" >> "${GITHUB_OUTPUT}"
 
-    - name: "Display Errors"
-      if: steps.golintr.outputs.errors != ''
+    - if: steps.golint.outputs.errors != ''
+      name: "Display Errors"
       shell: bash
       env:
         GOLINTR_ERRORS: ${{ steps.golint.outputs.errors }}
