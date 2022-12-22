@@ -40,25 +40,6 @@ jobs:
   golintr:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-go@v3
-      - uses: norwd/golintr@v2
-````
-
-### Advanced Setup
-
-```yaml
----
-
-name: "Lint Go Files"
-
-on:
-  push:
-
-jobs:
-  golintr:
-    runs-on: ubuntu-latest
-    steps:
       - name: Checkout
         uses: actions/checkout@v3
 
@@ -66,18 +47,9 @@ jobs:
         uses: actions/setup-go@v3
 
       - name: Run Golint
-        id: golintr
         uses: norwd/golintr@v2
         with:
           path: ./src/...
-
-      - name: Display Errors
-        if: failure() || steps.golintr.outputs.errors != ''
-        shell: bash
-        env:
-          GOLINTR_ERRORS: ${{ steps.golintr.outputs.errors }}
-        run: |
-          echo "$GOLINTR_ERRORS" | awk -F : '{ file=$1; $1=""; line=$2; $2=""; title="Go Lint Error"; $3=""; print "::error file=" file ",line=" line ",title=" title "::" $0 }'
 ````
 
 [golint]: https://github.com/golang/lint
