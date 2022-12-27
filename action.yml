@@ -37,10 +37,10 @@ runs:
 
     - if: steps.golint.outputs.errors != ''
       name: "Display Errors"
-      shell: bash
-      env:
-        GOLINTR_ERRORS: ${{ steps.golint.outputs.errors }}
-        AWK_SCRIPT: |
+      uses: norwd/grawk@main
+      with:
+        input: ${{ steps.golint.outputs.errors }}
+        program: |
           {
             file=$1
             line=$2
@@ -52,6 +52,8 @@ runs:
 
             print "::error file=" file ",line=" line ",title=" title "::" $0
           }
-      run: |
-        echo "$GOLINTR_ERRORS" | awk -F : "${AWK_SCRIPT}"
-        exit 1
+
+    - if: steps.golint.outputs.errors != ''
+      name: "Exit With Error Code 1"
+      shell: bash
+      run: exit 1
