@@ -31,16 +31,18 @@ runs:
       env:
         GOLINT_PATH: ${{ inputs.path }}
       run: |
-        echo "errors<<EOF" >> "${GITHUB_OUTPUT}"
-        { ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true; } | tee -a "${GITHUB_OUTPUT}"
-        echo "EOF" >> "${GITHUB_OUTPUT}"
+        {
+          echo "errors<<EOF"
+          ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true
+          echo "EOF"
+        } >> "${GITHUB_OUTPUT}"
 
     - if: steps.golint.outputs.errors != ''
       name: "Display Errors"
-      shell: bash
-      env:
-        GOLINTR_ERRORS: ${{ steps.golint.outputs.errors }}
-        AWK_SCRIPT: |
+      uses: norwd/grawk@main
+      with:
+        input: ${{ steps.golint.outputs.errors }}
+        program: |
           {
             file=$1
             line=$2
@@ -52,6 +54,8 @@ runs:
 
             print "::error file=" file ",line=" line ",title=" title "::" $0
           }
-      run: |
-        echo "$GOLINTR_ERRORS" | awk -F : "${AWK_SCRIPT}"
-        exit 1
+
+    - if: steps.golint.outputs.errors != ''
+      name: "Exit With Error Code 1"
+      shell: bash
+      run: exit 1
