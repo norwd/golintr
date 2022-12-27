@@ -31,9 +31,11 @@ runs:
       env:
         GOLINT_PATH: ${{ inputs.path }}
       run: |
-        echo "errors<<EOF" >> "${GITHUB_OUTPUT}"
-        { ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true; } | tee -a "${GITHUB_OUTPUT}"
-        echo "EOF" >> "${GITHUB_OUTPUT}"
+        {
+          echo "errors<<EOF"
+          ~/go/bin/golint -set_exit_status "${GOLINT_PATH}" || true
+          echo "EOF"
+        } >> "${GITHUB_OUTPUT}"
 
     - if: steps.golint.outputs.errors != ''
       name: "Display Errors"
