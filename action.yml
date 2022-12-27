@@ -39,7 +39,7 @@ runs:
 
     - if: steps.golint.outputs.errors != ''
       name: "Display Errors"
-      uses: norwd/grawk@main
+      uses: norwd/grawk@v1
       with:
         input: ${{ steps.golint.outputs.errors }}
         program: |
