@@ -8,9 +8,16 @@ branding:
 
 inputs:
   path:
-    description: 'Path used by golint command'
     required: false
     default: './...'
+    description: |
+      Path(s) to files to lint.
+
+  type:
+    required: false
+    default: 'lint'
+    description: |
+      Which linter type to use. (`lint` or `criticise`)
 
 outputs:
   errors:
